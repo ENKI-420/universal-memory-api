@@ -38,6 +38,12 @@ export default function Home() {
             <a href="#jobs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Jobs
             </a>
+            <Button size="sm" variant="outline" asChild>
+              <a href="/login">Sign In</a>
+            </Button>
+            <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90" asChild>
+              <a href="/dashboard">Dashboard</a>
+            </Button>
             <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
               Documentation
             </Button>
