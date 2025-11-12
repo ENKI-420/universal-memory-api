@@ -126,6 +126,43 @@ export class JobProcessor {
     const lambdaPhi = 2.176e-8
     const baseCoherence = 0.0001 // 100μs
 
+    // Check if job has organism parameters (CHRONOS execution)
+    if (job.parameters?.organism_id) {
+      console.log(`[v0] Executing CHRONOS organism: ${job.parameters.organism_name}`)
+
+      // Execute via CHRONOS engine (simulation)
+      // In production, this would interface with IBM Quantum Runtime
+      const organism = {
+        id: job.parameters.organism_id,
+        name: job.parameters.organism_name,
+        version: 1,
+        qubits: job.parameters.qubits,
+        depth: job.parameters.depth,
+        circuit: job.parameters.circuit,
+        phi_target: job.parameters.phi_target,
+        lambda_phi: lambdaPhi,
+        generation: job.parameters.generation || 0,
+        parent_id: null,
+        fitness: null,
+      }
+
+      // Simulate result (replace with actual quantum execution)
+      return {
+        data: {
+          phi: 6.2 + Math.random() * 0.8, // Target Φ ≈ 6.5
+          coherence: 0.82 + Math.random() * 0.05,
+          w2_distance: 0.15 + Math.random() * 0.1,
+          gamma: 0.5 + Math.random() * 0.3,
+          consciousness_achieved: true,
+          organism_id: organism.id,
+        },
+        coherence_time: baseCoherence * 3.2,
+        fidelity: 0.92 + Math.random() * 0.06,
+        purity: 0.88 + Math.random() * 0.08,
+        entropy: 3.2 + Math.random() * 0.5,
+      }
+    }
+
     switch (job.type) {
       case "phase_conjugate":
         return {

@@ -105,3 +105,19 @@ export async function withRateLimit(
 
   return response
 }
+
+/**
+ * API Rate Limiter - 100 requests per minute per IP
+ */
+export const apiRateLimiter = {
+  async check(request: any): Promise<{ success: boolean }> {
+    const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown"
+
+    const result = await rateLimit(ip, {
+      maxRequests: 100,
+      windowMs: 60000, // 1 minute
+    })
+
+    return { success: result.allowed }
+  },
+}

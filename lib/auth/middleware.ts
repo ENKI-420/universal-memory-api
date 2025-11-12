@@ -40,3 +40,23 @@ export async function withRole(
     return handler(req, session)
   })
 }
+
+/**
+ * Simple auth helper that returns user session or throws
+ */
+export async function requireAuth(request: NextRequest): Promise<any> {
+  const authHeader = request.headers.get("authorization")
+  const token = extractTokenFromHeader(authHeader)
+
+  if (!token) {
+    throw new Error("Missing authentication token")
+  }
+
+  const session = await verifyToken(token)
+
+  if (!session) {
+    throw new Error("Invalid or expired token")
+  }
+
+  return session
+}

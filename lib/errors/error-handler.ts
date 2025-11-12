@@ -56,3 +56,8 @@ export function withErrorHandler<T extends any[], R>(
     }
   }
 }
+
+/**
+ * Alias for handleError for API routes
+ */
+export const handleApiError = handleError
