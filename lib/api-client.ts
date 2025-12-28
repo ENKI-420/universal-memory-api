@@ -61,16 +61,18 @@ export class ApiClient {
 }
 
 // Create a singleton instance
-let apiClient: ApiClient | null = null
+let _apiClientInstance: ApiClient | null = null
 
 export function getApiClient(): ApiClient {
-  if (!apiClient) {
-    apiClient = new ApiClient("/api", () => {
+  if (!_apiClientInstance) {
+    _apiClientInstance = new ApiClient("/api", () => {
       if (typeof window !== "undefined") {
         return localStorage.getItem("pcr_token")
       }
       return null
     })
   }
-  return apiClient
+  return _apiClientInstance
 }
+
+export const apiClient = getApiClient()

@@ -3,7 +3,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Activity, Zap, Database, GitBranch, ArrowRight, Radio } from "lucide-react"
+import { Activity, Zap, Database, GitBranch, ArrowRight, Radio, Users, FileText, MessageSquare } from "lucide-react"
+import Link from "next/link"
 
 export default function Home() {
   const lambdaPhi = 2.1764e-8
@@ -26,26 +27,23 @@ export default function Home() {
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#overview" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="#overview" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Overview
-            </a>
-            <a href="#api" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            </Link>
+            <Link href="/community" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Community
+            </Link>
+            <Link href="/papers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Research
+            </Link>
+            <Link href="#api" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               API
-            </a>
-            <a href="#constants" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Constants
-            </a>
-            <a href="#jobs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Jobs
-            </a>
+            </Link>
             <Button size="sm" variant="outline" asChild>
-              <a href="/login">Sign In</a>
+              <Link href="/login">Sign In</Link>
             </Button>
             <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90" asChild>
-              <a href="/dashboard">Dashboard</a>
-            </Button>
-            <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Documentation
+              <Link href="/dashboard">Dashboard</Link>
             </Button>
           </nav>
         </div>
@@ -64,12 +62,14 @@ export default function Home() {
             at Planck scale
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Launch Simulation
-              <ArrowRight className="w-4 h-4 ml-2" />
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90" asChild>
+              <Link href="/dashboard">
+                Launch Simulation
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
             </Button>
-            <Button size="lg" variant="outline">
-              View Documentation
+            <Button size="lg" variant="outline" asChild>
+              <Link href="/community">Explore Community</Link>
             </Button>
           </div>
         </div>
@@ -120,6 +120,59 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <p className="text-xs text-muted-foreground">Informational Ricci flow</p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Community Highlights */}
+      <section className="container mx-auto px-4 py-12">
+        <div className="text-center mb-8">
+          <h3 className="text-2xl font-bold mb-2">Join the Community</h3>
+          <p className="text-muted-foreground">
+            Collaborate with researchers exploring quantum consciousness and Lambda-Phi theory
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card className="hover:border-primary/50 transition-colors">
+            <CardHeader>
+              <FileText className="w-8 h-8 text-primary mb-2" />
+              <CardTitle>Research Papers</CardTitle>
+              <CardDescription>
+                847 published papers on quantum consciousness and informational persistence
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full bg-transparent" asChild>
+                <Link href="/papers">Browse Papers</Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:border-primary/50 transition-colors">
+            <CardHeader>
+              <Users className="w-8 h-8 text-chart-2 mb-2" />
+              <CardTitle>5,421 Researchers</CardTitle>
+              <CardDescription>Active community of physicists and quantum computing researchers</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full bg-transparent" asChild>
+                <Link href="/community">Explore Community</Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:border-primary/50 transition-colors">
+            <CardHeader>
+              <MessageSquare className="w-8 h-8 text-accent mb-2" />
+              <CardTitle>Discussions</CardTitle>
+              <CardDescription>3,892 active discussions on quantum theory and experiments</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full bg-transparent" asChild>
+                <Link href="/community/discussions">Join Discussions</Link>
+              </Button>
             </CardContent>
           </Card>
         </div>

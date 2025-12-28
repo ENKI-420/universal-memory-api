@@ -1,14 +1,14 @@
-import { query } from "@/lib/db"
+import { sql } from "@/lib/db"
 import type { User } from "@/lib/types/database"
 
 export class UserRepository {
   async findById(id: string): Promise<User | null> {
-    const users = await query<User>("SELECT * FROM users WHERE id = $1", [id])
+    const users = await sql<User[]>`SELECT * FROM users WHERE id = ${id}`
     return users[0] || null
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const users = await query<User>("SELECT * FROM users WHERE email = $1", [email])
+    const users = await sql<User[]>`SELECT * FROM users WHERE email = ${email}`
     return users[0] || null
   }
 
@@ -18,39 +18,48 @@ export class UserRepository {
     full_name?: string
     role?: string
   }): Promise<User> {
-    const users = await query<User>(
-      `INSERT INTO users (email, password_hash, full_name, role)
-       VALUES ($1, $2, $3, $4)
-       RETURNING *`,
-      [data.email, data.password_hash, data.full_name || null, data.role || "user"],
-    )
+    const users = await sql<User[]>`
+      INSERT INTO users (email, password_hash, full_name, role)
+      VALUES (${data.email}, ${data.password_hash}, ${data.full_name || null}, ${data.role || "user"})
+      RETURNING *
+    `
     return users[0]
   }
 
   async updateLastLogin(id: string): Promise<void> {
-    await query("UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE id = $1", [id])
+    await sql`UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE id = ${id}`
   }
 
   async list(filters?: { role?: string; is_active?: boolean }): Promise<User[]> {
-    let queryText = "SELECT * FROM users WHERE 1=1"
-    const params: any[] = []
-    let paramIndex = 1
-
-    if (filters?.role) {
-      queryText += ` AND role = $${paramIndex}`
-      params.push(filters.role)
-      paramIndex++
+    if (!filters) {
+      return sql<User[]>`SELECT * FROM users ORDER BY created_at DESC`
     }
 
-    if (filters?.is_active !== undefined) {
-      queryText += ` AND is_active = $${paramIndex}`
-      params.push(filters.is_active)
-      paramIndex++
+    if (filters.role && filters.is_active !== undefined) {
+      return sql<User[]>`
+        SELECT * FROM users 
+        WHERE role = ${filters.role} AND is_active = ${filters.is_active}
+        ORDER BY created_at DESC
+      `
     }
 
-    queryText += " ORDER BY created_at DESC"
+    if (filters.role) {
+      return sql<User[]>`
+        SELECT * FROM users 
+        WHERE role = ${filters.role}
+        ORDER BY created_at DESC
+      `
+    }
 
-    return query<User>(queryText, params)
+    if (filters.is_active !== undefined) {
+      return sql<User[]>`
+        SELECT * FROM users 
+        WHERE is_active = ${filters.is_active}
+        ORDER BY created_at DESC
+      `
+    }
+
+    return sql<User[]>`SELECT * FROM users ORDER BY created_at DESC`
   }
 }
 

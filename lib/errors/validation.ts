@@ -47,3 +47,42 @@ export function validateArray(value: any, fieldName: string): void {
     throw new ValidationError(`${fieldName} must be an array`)
   }
 }
+
+export function validatePaperSubmission(data: {
+  title?: string
+  abstract?: string
+  content?: string
+  category?: string
+}): void {
+  validateRequired(data.title, "Title")
+  validateRequired(data.abstract, "Abstract")
+  validateRequired(data.content, "Content")
+  validateRequired(data.category, "Category")
+
+  if (data.title && data.title.length < 10) {
+    throw new ValidationError("Title must be at least 10 characters long")
+  }
+
+  if (data.abstract && data.abstract.length < 50) {
+    throw new ValidationError("Abstract must be at least 50 characters long")
+  }
+
+  if (data.content && data.content.length < 100) {
+    throw new ValidationError("Content must be at least 100 characters long")
+  }
+
+  const allowedCategories = [
+    "quantum-theory",
+    "consciousness",
+    "lambda-phi",
+    "decoherence",
+    "phase-conjugate",
+    "ricci-flow",
+    "experimental",
+    "theoretical",
+  ]
+
+  if (data.category && !allowedCategories.includes(data.category)) {
+    throw new ValidationError(`Invalid category. Allowed: ${allowedCategories.join(", ")}`)
+  }
+}

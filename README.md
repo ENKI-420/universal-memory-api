@@ -328,4 +328,4 @@ For issues, questions, or contributions, please open an issue on GitHub.
 *The universe's first machine-readable law of coherence*
 \`\`\`
 
-```json file="" isHidden
+\`\`\`json file="" isHidden

@@ -5,7 +5,19 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/lib/hooks/use-auth"
-import { LayoutDashboard, Briefcase, Users, Activity, Settings, LogOut, Radio, BarChart3, Cpu } from "lucide-react"
+import {
+  LayoutDashboard,
+  Briefcase,
+  Users,
+  Activity,
+  Settings,
+  LogOut,
+  Radio,
+  BarChart3,
+  Cpu,
+  Globe,
+  FileText,
+} from "lucide-react"
 
 const navigation = [
   { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
@@ -13,6 +25,8 @@ const navigation = [
   { name: "Jobs", href: "/dashboard/jobs", icon: Briefcase },
   { name: "Queue", href: "/dashboard/queue", icon: Activity },
   { name: "Monitoring", href: "/dashboard/monitoring", icon: BarChart3 },
+  { name: "Community", href: "/community", icon: Globe },
+  { name: "Research Papers", href: "/papers", icon: FileText },
   { name: "Users", href: "/dashboard/users", icon: Users, adminOnly: true },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ]
